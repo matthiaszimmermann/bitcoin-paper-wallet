@@ -12,7 +12,7 @@ An example output is provided below.
 
 As we want to create paper wallets, the CSS is prepared make the HTML printable.
 
-![Printed Wallet](/screenshots/paper_wallet_printed.png)
+![Printed Wallet](/screenshots/paper_wallet_printed.jpg)
 
 ## Run the Application
 
