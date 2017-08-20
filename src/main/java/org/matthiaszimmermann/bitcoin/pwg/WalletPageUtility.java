@@ -87,7 +87,7 @@ public class WalletPageUtility extends HtmlUtility {
 		HtmlUtility.addOpenDiv(html, CSS_CLEARFIX);
 
 		// qr code for wallet file
-		String walletFileContent = getWalletFileContent(wallet);
+		String walletFileContent = getWalletFileContent(wallet, true);
 		HtmlUtility.addOpenDiv(html, CSS_COLUMN);
 		byte [] walletQrCode = QrCodeUtility.contentToPngBytes(walletFileContent, 400);
 		HtmlUtility.addEncodedImage(html, walletQrCode, 500, CSS_IMG_WALLET);
@@ -111,9 +111,8 @@ public class WalletPageUtility extends HtmlUtility {
 		HtmlUtility.addCloseDiv(html);
 		HtmlUtility.addParagraph(html, "Pass Phrase", CSS_CAPTION);
 		
-		walletFileContent = getWalletFileContent(wallet);
 		HtmlUtility.addOpenDiv(html, CSS_CONTENT);
-		HtmlUtility.addContent(html, walletFileContent.replace(",\"", ", \""));
+		HtmlUtility.addContent(html, walletFileContent);
 		HtmlUtility.addCloseDiv(html);
 		HtmlUtility.addParagraph(html, "File Content", CSS_CAPTION);
 		
@@ -136,9 +135,17 @@ public class WalletPageUtility extends HtmlUtility {
 		return html.toString();
 	}
 
-	private static String getWalletFileContent(PaperWallet wallet) {
+	private static String getWalletFileContent(PaperWallet wallet, boolean minify) {
 		try {
-			return wallet.getFileContent();
+			String content = wallet.getFileContent();
+			
+			if(minify) {
+				content = content.replaceAll(",\"", ", \"");
+				content = content.replaceAll("\\s+", " ");
+				
+			}
+			
+			return content;
 		} 
 		catch (Exception e) {
 			throw new RuntimeException("Failed to load content from wallet file", e);
