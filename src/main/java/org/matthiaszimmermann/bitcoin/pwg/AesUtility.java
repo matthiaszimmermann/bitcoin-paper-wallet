@@ -1,7 +1,6 @@
 package org.matthiaszimmermann.bitcoin.pwg;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
@@ -26,23 +25,6 @@ public class AesUtility {
 	private SecretKey key;
 	private byte[] iv;
 
-	/**
-	 * warning: this is a hack, read more about this in the blog post cited below
-	 * http://opensourceforgeeks.blogspot.ch/2014/09/how-to-install-java-cryptography.html
-	 */
-	static {
-		try {
-			Field field = Class
-					.forName("javax.crypto.JceSecurity")
-					.getDeclaredField("isRestricted");
-			field.setAccessible(true);
-			field.set(null, java.lang.Boolean.FALSE);
-		} 
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}    	
-	}
-	
 	public static String bytesToBase64(byte [] bytes) {
 		return Base64.getEncoder().encodeToString(bytes);
 	}
